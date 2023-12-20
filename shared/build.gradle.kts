@@ -19,6 +19,13 @@ kotlin {
     ios()
     iosSimulatorArm64()
 
+    @Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
+    compilerOptions {
+        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+    }
+
+
     cocoapods {
         summary = "Pokedex the Shared Module"
         homepage = "Link to the Shared Module homepage"

@@ -39,6 +39,8 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        languageVersion = "2.0"
+        apiVersion = "2.0"
     }
 }
 

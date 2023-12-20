@@ -2,12 +2,12 @@ package com.mocoding.pokedex
 
 object Versions {
     const val gradlePlugin = "7.3.0"
-    const val composeCompiler = "1.5.6"
+    const val composeCompiler = "1.5.6-dev-k2.0.0-Beta1-06a03be2b42"
     const val coroutines = "1.8.0-RC"
     const val serialization = "1.6.2"
     const val mviKotlin = "3.3.0"
-    const val decompose = "2.2.1-compose-experimental"
-    const val essenty = "1.3.0"
+    const val decompose = "3.0.0-alpha03"
+    const val essenty = "2.0.0-alpha02"
     const val ktor = "2.3.7"
     const val sqlDelight = "2.0.0"
     const val koin = "3.5.3"

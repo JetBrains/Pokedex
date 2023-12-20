@@ -7,14 +7,13 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.mocoding.pokedex.ui.comingsoon.ComingSoonComponent
 import com.mocoding.pokedex.ui.details.DetailsComponent
 import com.mocoding.pokedex.ui.favorite.FavoriteComponent
 import com.mocoding.pokedex.ui.main.MainComponent
 import com.mocoding.pokedex.ui.pokedex.PokedexComponent
+import kotlinx.serialization.Serializable
 
 class RootComponent internal constructor(
     componentContext: ComponentContext,
@@ -75,7 +74,8 @@ class RootComponent internal constructor(
             source = navigation,
             initialConfiguration = Configuration.Main,
             handleBackButton = false,
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            serializer = Configuration.serializer()
         )
 
     val childStack: Value<ChildStack<*, Child>> = stack
@@ -119,17 +119,12 @@ class RootComponent internal constructor(
             is ComingSoonComponent.Output.NavigateBack -> navigation.pop()
         }
 
-    private sealed class Configuration: Parcelable {
-        @Parcelize
+    @Serializable
+    private sealed class Configuration {
         object Main : Configuration()
-
-        @Parcelize
         data class Pokedex(val searchValue: String = "") : Configuration()
-        @Parcelize
         object Favorite : Configuration()
-        @Parcelize
         data class Details(val pokemonName: String) : Configuration()
-        @Parcelize
         object ComingSoon : Configuration()
     }
 

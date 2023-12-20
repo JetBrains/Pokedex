@@ -63,7 +63,7 @@ object Deps {
 
         object Decompose {
             const val decompose = "com.arkivanov.decompose:decompose:${Versions.decompose}"
-            const val extensionsCompose = "com.arkivanov.decompose:extensions-compose-jetbrains:${Versions.decompose}"
+            const val extensionsCompose = "com.arkivanov.decompose:extensions-compose:${Versions.decompose}"
         }
 
         object Essenty {

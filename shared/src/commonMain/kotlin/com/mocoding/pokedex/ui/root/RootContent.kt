@@ -1,9 +1,9 @@
 package com.mocoding.pokedex.ui.root
 
 import androidx.compose.runtime.Composable
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.mocoding.pokedex.ui.comingsoon.ComingSoonScreen
 import com.mocoding.pokedex.ui.details.DetailsScreen
 import com.mocoding.pokedex.ui.favorite.FavoriteScreen
