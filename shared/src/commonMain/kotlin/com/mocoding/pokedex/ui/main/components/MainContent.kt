@@ -59,9 +59,9 @@ internal fun MainContent(
                     Icon(Icons.Rounded.Search, contentDescription = "Search Pokemon")
                 }
             },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = .2f),
-                placeholderColor = MaterialTheme.colorScheme.surface,
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = .2f),
+                focusedPlaceholderColor = MaterialTheme.colorScheme.surface,
                 focusedLeadingIconColor = MaterialTheme.colorScheme.surface,
                 unfocusedLeadingIconColor = MaterialTheme.colorScheme.surface,
                 unfocusedIndicatorColor = Color.Transparent,
