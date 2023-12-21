@@ -1,12 +1,14 @@
+import org.jetbrains.compose.ComposeExtension
+
 plugins {
     //trick: for the same plugin versions in all sub-modules
-    kotlin("android") version "2.0.0-Beta1" apply false
-    kotlin("multiplatform") version "2.0.0-Beta1" apply false
-    kotlin("plugin.serialization") version "2.0.0-Beta1" apply false
-    id("app.cash.sqldelight") version "2.0.0" apply false
-    id("com.android.application") version "7.3.0" apply false
-    id("com.android.library") version "7.3.0" apply false
-    id("org.jetbrains.compose") version "1.5.11" apply false
+    kotlin("android") apply false
+    kotlin("multiplatform") apply false
+    kotlin("plugin.serialization") apply false
+    id("app.cash.sqldelight") apply false
+    id("com.android.application") apply false
+    id("com.android.library") apply false
+    id("org.jetbrains.compose") apply false
 }
 
 allprojects {
@@ -15,5 +17,15 @@ allprojects {
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://androidx.dev/storage/compose-compiler/repository/")
+    }
+
+    afterEvaluate {
+        extensions.findByType(ComposeExtension::class.java)?.apply {
+            val composeCompilerVersion = project.property("compose.compiler") as String
+            kotlinCompilerPlugin.set(composeCompilerVersion)
+
+            val kotlinVersion = getOverriddenKotlinVersion(project) ?: "2.0.0-Beta1"
+            kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=$kotlinVersion")
+        }
     }
 }

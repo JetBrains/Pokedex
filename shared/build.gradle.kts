@@ -1,6 +1,5 @@
 import com.mocoding.pokedex.Configuration
 import com.mocoding.pokedex.Deps
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 
 plugins {
     kotlin("multiplatform")
@@ -14,15 +13,39 @@ plugins {
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 kotlin {
-    jvm("desktop")
-    android()
-    ios()
-    iosSimulatorArm64()
-
-    @Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
+    @Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE", "OPT_IN_USAGE")
     compilerOptions {
-        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
-        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+        languageVersion.set(
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(
+                version = getOverriddenKotlinLanguageVersion(project) ?: "2.0"
+            )
+        )
+        apiVersion.set(
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(
+                version = getOverriddenKotlinApiVersion(project) ?: "2.0"
+            )
+        )
+    }
+
+    jvm("desktop")
+
+    androidTarget {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
+    }
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
     }
 
 
@@ -44,6 +67,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+
+                implementation("co.touchlab:stately-common:2.0.6")
                 // Compose
                 with(compose) {
                     api(runtime)
@@ -131,7 +156,7 @@ kotlin {
             }
         }
 
-        val iosMain by getting {
+        val iosMain by creating {
             dependsOn(commonMain)
 
             dependencies {
@@ -145,16 +170,24 @@ kotlin {
         val iosSimulatorArm64Main by getting {
             dependsOn(iosMain)
         }
-        val iosTest by getting {
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosTest by creating {
             dependsOn(commonTest)
         }
         val iosSimulatorArm64Test by getting {
             dependsOn(iosTest)
         }
-    }
-
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
+        val iosArm64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosX64Test by getting {
+            dependsOn(iosTest)
+        }
     }
 }
 

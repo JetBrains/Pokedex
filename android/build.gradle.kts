@@ -1,10 +1,48 @@
 import com.mocoding.pokedex.Configuration
 import com.mocoding.pokedex.Deps
-import com.mocoding.pokedex.Versions
 
 plugins {
     id("com.android.application")
-    kotlin("android")
+    kotlin("multiplatform")
+    id("org.jetbrains.compose")
+}
+
+kotlin {
+    @Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE", "OPT_IN_USAGE")
+    compilerOptions {
+        languageVersion.set(
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(
+                version = getOverriddenKotlinLanguageVersion(project) ?: "2.0"
+            )
+        )
+        apiVersion.set(
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(
+                version = getOverriddenKotlinApiVersion(project) ?: "2.0"
+            )
+        )
+    }
+
+    androidTarget {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
+    }
+
+    sourceSets {
+        val androidMain by getting {
+            dependencies {
+                implementation(project(":shared"))
+                implementation("androidx.activity:activity-compose:1.6.1")
+
+                // Koin
+                with(Deps.Koin) {
+                    api(android)
+                }
+            }
+        }
+    }
 }
 
 android {
@@ -20,9 +58,6 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
-    }
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -36,20 +71,5 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-        languageVersion = "2.0"
-        apiVersion = "2.0"
-    }
-}
-
-dependencies {
-    implementation(project(":shared"))
-    implementation("androidx.activity:activity-compose:1.6.1")
-
-    // Koin
-    with(Deps.Koin) {
-        api(android)
     }
 }
