@@ -12,11 +12,20 @@ plugins {
 }
 
 allprojects {
+    @Suppress("LocalVariableName")
+    val kotlin_repo_url: String? = extra.properties["kotlin_repo_url"] as? String
+
+    val composeCompilerCustomRepo =
+        extra.properties["compose.compiler.customRepositoryUrl"] as? String
+
     repositories {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://androidx.dev/storage/compose-compiler/repository/")
+        kotlin_repo_url?.also { maven(it) }
+        composeCompilerCustomRepo?.also { maven(it) }
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }
 
     afterEvaluate {

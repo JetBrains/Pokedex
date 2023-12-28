@@ -10,6 +10,7 @@ pluginManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         mavenCentral()
         kotlin_repo_url?.also { maven(it) }
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }
 
     plugins {
@@ -43,6 +44,7 @@ dependencyResolutionManagement {
         mavenCentral()
         kotlin_repo_url?.also { maven(it) }
         composeCompilerCustomRepo?.also { maven(it) }
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }
 }
 
