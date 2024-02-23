@@ -33,8 +33,9 @@ allprojects {
             val composeCompilerVersion = project.property("compose.compiler") as String
             kotlinCompilerPlugin.set(composeCompilerVersion)
 
-            val kotlinVersion = getOverriddenKotlinVersion(project) ?: "2.0.0-Beta1"
-            kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=$kotlinVersion")
+            //val kotlinVersion = getOverriddenKotlinVersion(project) ?: "2.0.0-Beta1"
+            //kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=$kotlinVersion")
+            kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=true")
         }
     }
 }
