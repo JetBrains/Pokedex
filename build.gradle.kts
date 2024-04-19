@@ -30,7 +30,11 @@ allprojects {
 
     afterEvaluate {
         extensions.findByType(ComposeExtension::class.java)?.apply {
-            val composeCompilerVersion = project.property("compose.compiler") as String
+            var composeCompilerVersion = project.property("compose.compiler") as String
+            if (composeCompilerVersion.isBlank()) {
+                val kotlinVersion = project.property("kotlin_version") as String
+                composeCompilerVersion = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin-embeddable:${kotlinVersion}"
+            }
             kotlinCompilerPlugin.set(composeCompilerVersion)
 
             //val kotlinVersion = getOverriddenKotlinVersion(project) ?: "2.0.0-Beta1"
