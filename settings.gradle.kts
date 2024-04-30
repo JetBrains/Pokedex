@@ -29,6 +29,7 @@ pluginManagement {
         id("org.jetbrains.compose").version(composeVersion)
         id("org.jetbrains.compose").version(composeVersion)
         id("app.cash.sqldelight").version(sqldelightVersion)
+        id("org.jetbrains.kotlin.plugin.compose").version(kotlinVersion)
     }
 }
 

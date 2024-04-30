@@ -9,6 +9,7 @@ plugins {
     id("com.android.application") apply false
     id("com.android.library") apply false
     id("org.jetbrains.compose") apply false
+    id("org.jetbrains.kotlin.plugin.compose") apply false
 }
 
 allprojects {
@@ -26,20 +27,5 @@ allprojects {
         kotlin_repo_url?.also { maven(it) }
         composeCompilerCustomRepo?.also { maven(it) }
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
-    }
-
-    afterEvaluate {
-        extensions.findByType(ComposeExtension::class.java)?.apply {
-            var composeCompilerVersion = project.properties["compose.compiler"] as? String
-            if (composeCompilerVersion.isNullOrBlank()) {
-                val kotlinVersion = project.property("kotlin_version") as String
-                composeCompilerVersion = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin-embeddable:${kotlinVersion}"
-            }
-            kotlinCompilerPlugin.set(composeCompilerVersion)
-
-            //val kotlinVersion = getOverriddenKotlinVersion(project) ?: "2.0.0-Beta1"
-            //kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=$kotlinVersion")
-            kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=true")
-        }
     }
 }

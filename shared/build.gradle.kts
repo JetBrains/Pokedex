@@ -9,6 +9,7 @@ plugins {
     id("org.jetbrains.compose")
     id("kotlin-parcelize")
     id("app.cash.sqldelight")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
