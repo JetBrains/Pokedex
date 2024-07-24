@@ -14,7 +14,12 @@ pluginManagement {
     }
 
     plugins {
-        val kotlinVersion = kotlin_version ?: "1.9.21"
+        println("kotlin_version = $kotlin_version")
+        val kotlinVersion = extra.properties["community.project.kotlin.version"] as? String
+            ?: kotlin_version
+            ?: "1.9.21"
+        println("Final kotlin version = $kotlin_version")
+
         val agpVersion = extra["agp.version"] as String
         val composeVersion = extra["composeMpp.version"] as String
         val sqldelightVersion = extra["sqldelight.version"] as String
