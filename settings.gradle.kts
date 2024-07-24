@@ -19,7 +19,7 @@ pluginManagement {
         val kotlinVersion = extra.properties["community.project.kotlin.version"] as? String
             ?: kotlin_version
             ?: "1.9.21"
-        println("Final kotlin version = $kotlin_version")
+        println("Final kotlin version = $kotlinVersion")
 
         val agpVersion = extra["agp.version"] as String
         val composeVersion = extra["composeMpp.version"] as String
@@ -32,7 +32,6 @@ pluginManagement {
         id("com.android.base").version(agpVersion)
         id("com.android.application").version(agpVersion)
         id("com.android.library").version(agpVersion)
-        id("org.jetbrains.compose").version(composeVersion)
         id("org.jetbrains.compose").version(composeVersion)
         id("app.cash.sqldelight").version(sqldelightVersion)
         id("org.jetbrains.kotlin.plugin.compose").version(kotlinVersion)
