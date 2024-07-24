@@ -2,7 +2,6 @@ import org.jetbrains.compose.ComposeExtension
 
 plugins {
     //trick: for the same plugin versions in all sub-modules
-    kotlin("android") apply false
     kotlin("multiplatform") apply false
     kotlin("plugin.serialization") apply false
     id("app.cash.sqldelight") apply false
