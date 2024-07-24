@@ -15,6 +15,7 @@ pluginManagement {
 
     plugins {
         println("kotlin_version = $kotlin_version")
+        println("community.project.kotlin.version = ${extra.properties["community.project.kotlin.version"]}")
         val kotlinVersion = extra.properties["community.project.kotlin.version"] as? String
             ?: kotlin_version
             ?: "1.9.21"
