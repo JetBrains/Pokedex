@@ -1,0 +1,56 @@
+[versions]
+
+coroutines = "1.8.0-RC"
+serialization = "1.6.2"
+mviKotlin = "3.3.0"
+decompose = "3.0.0-alpha03"
+essenty = "2.0.0-alpha02"
+ktor = "2.3.7"
+sqlDelight = "2.0.0"
+koin = "3.5.3"
+imageLoader = "1.2.10"
+logbackClassic = "1.2.11"
+kotlinWrappersBom = "1.0.0-pre.510"
+
+
+[libraries]
+
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-serialization = { module="org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+ktor-client = { module="io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-serialization-json = { module="io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-content-negotiation = { module="io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { module="io.ktor:ktor-client-logging", version.ref = "ktor" }
+
+ktor-client-android = { module="io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-client-darwin = { module="io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-java = { module="io.ktor:ktor-client-java", version.ref = "ktor" }
+ktor-client-js = { module="io.ktor:ktor-client-js", version.ref = "ktor" }
+
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logbackClassic" }
+
+cash-sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
+cash-sqldelight-sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
+cash-sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
+cash-sqldelight-sqljs-driver = { module = "app.cash.sqldelight:sqljs-driver", version.ref = "sqlDelight" }
+cash-coroutines-extension = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
+cash-primitive-adapters = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqlDelight" }
+
+
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+
+
+mvikotlin = { module = "com.arkivanov.mvikotlin:mvikotlin", version.ref = "mviKotlin" }
+mvikotlin-main = { module = "com.arkivanov.mvikotlin:mvikotlin-main", version.ref = "mviKotlin" }
+mvikotlin-extensions-coroutines = { module = "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines", version.ref = "mviKotlin" }
+
+
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-ext-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
+
+essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
+
+github-imageloader = { module = "io.github.qdsfdhvh:image-loader", version.ref="imageLoader" }
+
