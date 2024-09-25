@@ -14,4 +14,5 @@ args_string=${args_string%,}
 
 
 export CUSTOM_PARAMS="$args_string"
+echo CUSTOM_PARAMS="${CUSTOM_PARAMS[@]}"
 xcodebuild -workspace ios/Pokedex.xcworkspace -scheme Pokedex -configuration Debug -destination 'generic/platform=iOS Simulator' -allowProvisioningDeviceRegistration -allowProvisioningUpdates ARCHS=arm64
