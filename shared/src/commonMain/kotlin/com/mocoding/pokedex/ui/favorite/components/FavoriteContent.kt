@@ -66,12 +66,10 @@ internal fun FavoriteContent(
                         .padding(top = 20.dp, bottom = 6.dp)
                 )
 
-                Divider(
-                    color = MaterialTheme.colorScheme.outline.copy(alpha = .4f),
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = .4f),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                )
+                        .padding(horizontal = 20.dp))
 
                 if (state.isLoading) {
                     LinearProgressIndicator(
