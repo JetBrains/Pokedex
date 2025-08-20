@@ -9,11 +9,11 @@ do
     args_string+="${arg},"
 
     # We need to add `-Pkotlin.native.version=...` to the arguments
-    # Check if the current argument matches the pattern -Pcommunity.project.kotlin.version=*
+    # Check if the current argument matches the pattern -Pkotlin.version=*
     case "$arg" in
-        -Pcommunity.project.kotlin.version=*)
+        -Pkotlin.version=*)
             # Extract the value part after the '=' sign
-            kotlin_version="${arg#-Pcommunity.project.kotlin.version=}"
+            kotlin_version="${arg#-Pkotlin.version=}"
 
             # Construct the new parameter with the extracted value
             new_param="-Pkotlin.native.version=${kotlin_version}"

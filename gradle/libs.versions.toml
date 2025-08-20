@@ -1,12 +1,12 @@
 [versions]
 
-coroutines = "1.8.0-RC"
-serialization = "1.6.2"
+coroutines = "1.10.2"
+serialization = "1.9.0"
 mviKotlin = "3.3.0"
 decompose = "3.0.0-alpha03"
 essenty = "2.0.0-alpha02"
 ktor = "2.3.7"
-sqlDelight = "2.0.0"
+sqlDelight = "2.0.2"
 koin = "3.5.3"
 imageLoader = "1.2.10"
 logbackClassic = "1.2.11"

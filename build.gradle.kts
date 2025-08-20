@@ -1,5 +1,3 @@
-import org.jetbrains.compose.ComposeExtension
-
 plugins {
     //trick: for the same plugin versions in all sub-modules
     kotlin("multiplatform") apply false
@@ -12,8 +10,7 @@ plugins {
 }
 
 allprojects {
-    @Suppress("LocalVariableName")
-    val kotlin_repo_url: String? = extra.properties["kotlin_repo_url"] as? String
+    val kotlinRepo: String? = extra.properties["kotlin.repo"] as? String
 
     val composeCompilerCustomRepo =
         extra.properties["compose.compiler.customRepositoryUrl"] as? String
@@ -23,8 +20,8 @@ allprojects {
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://androidx.dev/storage/compose-compiler/repository/")
-        kotlin_repo_url?.also { maven(it) }
-        composeCompilerCustomRepo?.also { maven(it) }
+        kotlinRepo?.takeIf { it.isNotBlank() }?.let { maven(it) }
+        composeCompilerCustomRepo?.takeIf { it.isNotBlank() }?.let { maven(it) }
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }
 }

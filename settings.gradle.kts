@@ -1,24 +1,28 @@
 pluginManagement {
-    @Suppress("LocalVariableName")
-    val kotlin_version: String? by settings
-    @Suppress("LocalVariableName")
-    val kotlin_repo_url: String? by settings
+    // Resolve Kotlin version from dot-notation property only
+    val kotlinVersion = providers.gradleProperty("kotlin.version").orNull ?: "1.9.21"
+
+    // Ensure Kotlin/Native bundle version matches Kotlin plugin version
+    val kotlinNativeVersion = providers.gradleProperty("kotlin.native.version").orNull ?: kotlinVersion
+    if (kotlinNativeVersion != kotlinVersion) {
+        throw GradleException(
+            "Kotlin mismatch: kotlin.version=$kotlinVersion vs kotlin.native.version=$kotlinNativeVersion. Align them (TeamCity should pass the same value)."
+        )
+    }
+
+    // Optional custom repo for Kotlin dev/experimental builds
+    val kotlinRepo = providers.gradleProperty("kotlin.repo").orNull
 
     repositories {
         google()
         gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         mavenCentral()
-        kotlin_repo_url?.also { maven(it) }
+        kotlinRepo?.takeIf { it.isNotBlank() }?.let { maven(it) }
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }
 
     plugins {
-        println("kotlin_version = $kotlin_version")
-        println("community.project.kotlin.version = ${extra.properties["community.project.kotlin.version"]}")
-        val kotlinVersion = extra.properties["community.project.kotlin.version"] as? String
-            ?: kotlin_version
-            ?: "1.9.21"
         println("Final kotlin version = $kotlinVersion")
 
         val agpVersion = extra["agp.version"] as String
@@ -38,8 +42,8 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    @Suppress("LocalVariableName")
-    val kotlin_repo_url: String? by settings
+    // Optional custom repo for Kotlin dev/experimental builds
+    val kotlinRepo = providers.gradleProperty("kotlin.repo").orNull
 
     val composeCompilerCustomRepo =
         extra.properties["compose.compiler.customRepositoryUrl"] as? String
@@ -47,8 +51,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        kotlin_repo_url?.also { maven(it) }
-        composeCompilerCustomRepo?.also { maven(it) }
+        kotlinRepo?.takeIf { it.isNotBlank() }?.let { maven(it) }
+        composeCompilerCustomRepo?.takeIf { it.isNotBlank() }?.let { maven(it) }
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }
 }

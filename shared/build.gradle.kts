@@ -14,16 +14,16 @@ plugins {
 kotlin {
     @Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE", "OPT_IN_USAGE")
     compilerOptions {
-        languageVersion.set(
-            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(
-                version = getOverriddenKotlinLanguageVersion(project) ?: "2.0"
+        getOverriddenKotlinLanguageVersion(project)?.let {
+            languageVersion.set(
+                org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(it)
             )
-        )
-        apiVersion.set(
-            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(
-                version = getOverriddenKotlinApiVersion(project) ?: "2.0"
+        }
+        getOverriddenKotlinApiVersion(project)?.let {
+            apiVersion.set(
+                org.jetbrains.kotlin.gradle.dsl.KotlinVersion.fromVersion(it)
             )
-        )
+        }
     }
 
     jvm("desktop")
@@ -206,8 +206,8 @@ object Configuration {
 }
 
 fun getOverriddenKotlinLanguageVersion(project: Project): String? {
-    val languageVersion = project.rootProject.properties["community.project.kotlin.languageVersion"] as? String
-        ?: project.rootProject.properties["kotlin_language_version"] as? String
+    val languageVersion = (project.rootProject.properties["kotlin.language.version"]
+        ?: project.rootProject.properties["kotlin.languageVersion"]) as? String
     if (languageVersion != null) {
         project.logger.info("""[COMMUNITY_PROJECT_BUILD] Configured Kotlin Language version: '$languageVersion' for project ${project.name}""")
     }
@@ -215,8 +215,8 @@ fun getOverriddenKotlinLanguageVersion(project: Project): String? {
 }
 
 fun getOverriddenKotlinApiVersion(project: Project): String? {
-    val apiVersion = project.rootProject.properties["community.project.kotlin.apiVersion"] as? String 
-        ?: project.rootProject.properties["kotlin_api_version"] as? String
+    val apiVersion = (project.rootProject.properties["kotlin.api.version"]
+        ?: project.rootProject.properties["kotlin.apiVersion"]) as? String
     if (apiVersion != null) {
         project.logger.info("""[COMMUNITY_PROJECT_BUILD] Configured Kotlin API version: '$apiVersion' for project $${project.name}""")
     }
