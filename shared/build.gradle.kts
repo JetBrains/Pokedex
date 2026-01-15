@@ -186,17 +186,26 @@ android {
     }
 }
 
+// TODO: Remove when Android Lint becomes compatible with Kotlin 2.2.x
+// Issue: IncompatibleClassChangeError in NonNullableMutableLiveDataDetector
+// caused by Kotlin Analysis API changes (KaCallableMemberCall class vs interface)
+afterEvaluate {
+    tasks.matching { task: Task -> task.name.contains("lint", ignoreCase = true) }.configureEach {
+        enabled = false
+    }
+}
+
 sqldelight {
     databases {
-        create("PokemonDatabase") {
+        register("PokemonDatabase") {
             packageName.set("com.mocoding.pokedex.core.database")
         }
     }
 }
 
 object Configuration {
-    const val compileSdk = 34
-    const val targetSdk = 34
+    const val compileSdk = 35
+    const val targetSdk = 35
     const val minSdk = 24
     const val majorVersion = 1
     const val minorVersion = 0
