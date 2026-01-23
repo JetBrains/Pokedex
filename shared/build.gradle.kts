@@ -31,7 +31,6 @@ kotlin {
     androidTarget ()
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
@@ -153,9 +152,6 @@ kotlin {
         val iosSimulatorArm64Main by getting {
             dependsOn(iosMain)
         }
-        val iosX64Main by getting {
-            dependsOn(iosMain)
-        }
         val iosArm64Main by getting {
             dependsOn(iosMain)
         }
@@ -166,9 +162,6 @@ kotlin {
             dependsOn(iosTest)
         }
         val iosArm64Test by getting {
-            dependsOn(iosTest)
-        }
-        val iosX64Test by getting {
             dependsOn(iosTest)
         }
     }
