@@ -18,10 +18,10 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://packages.jetbrains.team/maven/p/cmp/dev")
         maven("https://androidx.dev/storage/compose-compiler/repository/")
         kotlinRepo?.takeIf { it.isNotBlank() }?.let { maven(it) }
         composeCompilerCustomRepo?.takeIf { it.isNotBlank() }?.let { maven(it) }
-        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
+        maven("https://packages.jetbrains.team/maven/p/kt/dev/")
     }
 }
