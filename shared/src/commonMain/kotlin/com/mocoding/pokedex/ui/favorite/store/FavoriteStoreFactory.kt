@@ -37,11 +37,11 @@ class FavoriteStoreFactory(
 
     private inner class ExecutorImpl : CoroutineExecutor<FavoriteStore.Intent, Unit, FavoriteStore.State, Msg, Nothing>(
         pokedexDispatchers.main) {
-        override fun executeAction(action: Unit, getState: () -> FavoriteStore.State) {
+        override fun executeAction(action: Unit) {
             getFavoritePokemonList()
         }
 
-        override fun executeIntent(intent: FavoriteStore.Intent, getState: () -> FavoriteStore.State): Unit = Unit
+        override fun executeIntent(intent: FavoriteStore.Intent): Unit = Unit
 
         private var getFavoritePokemonListJob: Job? = null
         private fun getFavoritePokemonList() {

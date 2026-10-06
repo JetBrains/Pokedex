@@ -5,11 +5,7 @@ import com.arkivanov.mvikotlin.core.store.SimpleBootstrapper
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.mocoding.pokedex.core.model.Pokemon
-import com.mocoding.pokedex.data.repository.PokemonRepository
 import com.mocoding.pokedex.pokedexDispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 internal class MainStoreFactory(
     private val storeFactory: StoreFactory,
@@ -30,7 +26,7 @@ internal class MainStoreFactory(
     private inner class ExecutorImpl : CoroutineExecutor<MainStore.Intent, Unit, MainStore.State, Msg, Nothing>(
         pokedexDispatchers.main) {
 
-        override fun executeIntent(intent: MainStore.Intent, getState: () -> MainStore.State): Unit =
+        override fun executeIntent(intent: MainStore.Intent): Unit =
             when (intent) {
                 is MainStore.Intent.InputPokemonSearch -> dispatch(Msg.PokemonSearchChanged(intent.search))
             }

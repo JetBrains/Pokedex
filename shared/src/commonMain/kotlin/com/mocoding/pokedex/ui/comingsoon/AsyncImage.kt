@@ -11,8 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import com.seiko.imageloader.ImageRequestState
-import com.seiko.imageloader.rememberAsyncImagePainter
+import com.seiko.imageloader.model.ImageAction
+import com.seiko.imageloader.rememberImageSuccessPainter
+import com.seiko.imageloader.ui.AutoSizeBox
 
 @Composable
 internal fun AsyncImage(
@@ -22,29 +23,31 @@ internal fun AsyncImage(
     colorFilter: ColorFilter? = null,
     modifier: Modifier = Modifier
 ) {
-    val painter = rememberAsyncImagePainter(url)
-
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
     ) {
-        Image(
-            painter = painter,
-            contentDescription = contentDescription,
-            contentScale = contentScale,
-            colorFilter = colorFilter,
-            modifier = Modifier.fillMaxSize()
-        )
-
-        if (painter.requestState is ImageRequestState.Loading
-            || painter.requestState is ImageRequestState.Failure) {
-            Icon(
-                Icons.Outlined.Image,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize(.4f)
-                    .alpha(.6f)
-            )
+        AutoSizeBox(url, modifier = Modifier.fillMaxSize()) { action ->
+            when (action) {
+                is ImageAction.Success -> {
+                    Image(
+                        painter = rememberImageSuccessPainter(action),
+                        contentDescription = contentDescription,
+                        contentScale = contentScale,
+                        colorFilter = colorFilter,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                is ImageAction.Loading, is ImageAction.Failure -> {
+                    Icon(
+                        Icons.Outlined.Image,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize(.4f)
+                            .alpha(.6f)
+                    )
+                }
+            }
         }
     }
 }

@@ -1,16 +1,20 @@
 [versions]
 
-coroutines = "1.10.2"
-serialization = "1.9.0"
-mviKotlin = "3.3.0"
-decompose = "3.0.0-alpha03"
-essenty = "2.0.0-alpha02"
-ktor = "2.3.7"
-sqlDelight = "2.0.2"
-koin = "3.5.3"
-imageLoader = "1.2.10"
-logbackClassic = "1.2.11"
-kotlinWrappersBom = "1.0.0-pre.510"
+coroutines = "1.11.0"
+serialization = "1.11.0"
+mviKotlin = "4.4.0"
+decompose = "3.5.0"
+essenty = "2.6.0"
+ktor = "3.6.0"
+sqlDelight = "2.4.1"
+koin = "4.2.2"
+imageLoader = "1.10.0"
+logbackClassic = "1.6.5"
+androidx-activity = "1.13.0"
+material-icons = "1.7.3"
+
+compose = "1.12.0" # For libraries such as ui, runtime, etc. Don't forget to update the Compose version in the gradle.properties
+compose-material3 = "1.12.0-alpha03"
 
 
 [libraries]
@@ -54,3 +58,10 @@ essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = 
 
 github-imageloader = { module = "io.github.qdsfdhvh:image-loader", version.ref="imageLoader" }
 
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+material-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "material-icons" }
+
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
+compose-material = { module = "org.jetbrains.compose.material:material", version.ref = "compose" }
+compose-material3 = { group = "org.jetbrains.compose.material3", name = "material3", version.ref = "compose-material3" }

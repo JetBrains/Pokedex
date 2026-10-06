@@ -1,7 +1,6 @@
 
 plugins {
     id("com.android.application")
-    kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
 }
@@ -20,20 +19,12 @@ kotlin {
             )
         }
     }
+}
 
-    androidTarget ()
-
-    sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(project(":shared"))
-                implementation("androidx.activity:activity-compose:1.6.1")
-
-                // Koin
-                api(libs.koin.android)
-            }
-        }
-    }
+dependencies {
+    implementation(project(":shared"))
+    implementation(libs.androidx.activity.compose)
+    api(libs.koin.android) // Koin
 }
 
 android {
@@ -59,20 +50,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-}
-
-// TODO: Remove when Android Lint becomes compatible with Kotlin 2.2.x
-// Issue: IncompatibleClassChangeError in NonNullableMutableLiveDataDetector
-// caused by Kotlin Analysis API changes (KaCallableMemberCall class vs interface)
-afterEvaluate {
-    tasks.matching { task: Task -> task.name.contains("lint", ignoreCase = true) }.configureEach {
-        enabled = false
+    packaging {
+        resources {
+            excludes += "META-INF/INDEX.LIST"
+        }
     }
 }
 
 object Configuration {
-    const val compileSdk = 35
-    const val targetSdk = 35
+    const val compileSdk = 37
+    const val targetSdk = 37
     const val minSdk = 24
     const val majorVersion = 1
     const val minorVersion = 0

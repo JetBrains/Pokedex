@@ -3,14 +3,12 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     kotlin("plugin.serialization")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("org.jetbrains.compose")
-    id("kotlin-parcelize")
     id("app.cash.sqldelight")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
-@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 kotlin {
     @Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE", "OPT_IN_USAGE")
     compilerOptions {
@@ -28,14 +26,32 @@ kotlin {
 
     jvm("desktop")
 
-    androidTarget ()
+    android {
+        namespace = "com.mocoding.pokedex"
+        compileSdk = Configuration.compileSdk
+        minSdk = Configuration.minSdk
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        }
+        androidResources {
+            enable = true
+        }
+        withHostTest {
+            isIncludeAndroidResources = true
+        }
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }.configure {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
+    }
 
     listOf(
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "Shared"
             isStatic = true
         }
     }
@@ -45,7 +61,7 @@ kotlin {
         summary = "Pokedex the Shared Module"
         homepage = "Link to the Shared Module homepage"
         version = "1.0"
-        ios.deploymentTarget = "14.1"
+        ios.deploymentTarget = "15.0"
         podfile = project.file("../ios/Podfile")
         framework {
             baseName = "shared"
@@ -57,78 +73,66 @@ kotlin {
     }
     
     sourceSets {
-        val commonMain by getting {
-            dependencies {
+        commonMain.dependencies {
+            implementation("co.touchlab:stately-common:2.0.6")
 
-                implementation("co.touchlab:stately-common:2.0.6")
-                // Compose
-                with(compose) {
-                    api(runtime)
-                    api(foundation)
-                    api(material)
-                    api(material3)
-                    api(materialIconsExtended)
-                }
+            // Compose
+            api(libs.compose.runtime)
+            api(libs.compose.foundation)
+            api(libs.compose.material)
+            api(libs.compose.material3)
+            api(libs.material.icons)
 
-                // Ktor
-                api(libs.ktor.client)
-                api(libs.ktor.serialization.json)
-                api(libs.ktor.content.negotiation)
-                api(libs.ktor.client.logging)
+            // Ktor
+            api(libs.ktor.client)
+            api(libs.ktor.serialization.json)
+            api(libs.ktor.content.negotiation)
+            api(libs.ktor.client.logging)
 
-                // Logback for ktor logging
-                implementation(libs.logback)
+            // Logback for ktor logging
+            implementation(libs.logback)
 
-                // SqlDelight
-                api(libs.cash.coroutines.extension)
-                api(libs.cash.primitive.adapters)
+            // SqlDelight
+            api(libs.cash.coroutines.extension)
+            api(libs.cash.primitive.adapters)
 
-                // Koin
-                api(libs.koin.core)
-                api(libs.koin.test)
+            // Koin
+            api(libs.koin.core)
+            api(libs.koin.test)
 
-                // KotlinX Serialization Json
-                implementation(libs.kotlinx.serialization)
+            // KotlinX Serialization Json
+            implementation(libs.kotlinx.serialization)
 
-                // Coroutines
-                implementation(libs.coroutines.core)
+            // Coroutines
+            implementation(libs.coroutines.core)
 
-                // MVIKotlin
-                api(libs.mvikotlin)
-                api(libs.mvikotlin.main)
-                api(libs.mvikotlin.extensions.coroutines)
+            // MVIKotlin
+            api(libs.mvikotlin)
+            api(libs.mvikotlin.main)
+            api(libs.mvikotlin.extensions.coroutines)
 
-                // Decompose
-                api(libs.decompose)
-                api(libs.decompose.ext.compose)
+            // Decompose
+            api(libs.decompose)
+            api(libs.decompose.ext.compose)
 
-                // Image Loading
-                api(libs.github.imageloader)
-                api(libs.essenty.lifecycle)
-            }
+            // Image Loading
+            api(libs.github.imageloader)
+            api(libs.essenty.lifecycle)
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
-        val androidMain by getting {
-            dependencies {
-                // Ktor
-                implementation(libs.ktor.client.android)
+        androidMain.dependencies {
+            // Ktor
+            implementation(libs.ktor.client.android)
 
-                // SqlDelight
-                implementation(libs.cash.sqldelight.android.driver)
+            // SqlDelight
+            implementation(libs.cash.sqldelight.android.driver)
 
-                // Koin
-                implementation(libs.koin.android)
-            }
+            // Koin
+            implementation(libs.koin.android)
         }
-        val androidUnitTest by getting
-
         val desktopMain by getting {
-            dependsOn(commonMain)
-
             dependencies {
                 // Ktor
                 implementation(libs.ktor.client.java)
@@ -137,54 +141,13 @@ kotlin {
                 implementation(libs.cash.sqldelight.sqlite.driver)
             }
         }
+        iosMain.dependencies {
+            // Ktor
+            implementation(libs.ktor.client.darwin)
 
-        val iosMain by creating {
-            dependsOn(commonMain)
-
-            dependencies {
-                // Ktor
-                implementation(libs.ktor.client.darwin)
-
-                // SqlDelight
-                implementation(libs.cash.sqldelight.native.driver)
-            }
+            // SqlDelight
+            implementation(libs.cash.sqldelight.native.driver)
         }
-        val iosSimulatorArm64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosArm64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosTest by creating {
-            dependsOn(commonTest)
-        }
-        val iosSimulatorArm64Test by getting {
-            dependsOn(iosTest)
-        }
-        val iosArm64Test by getting {
-            dependsOn(iosTest)
-        }
-    }
-}
-
-android {
-    namespace = "com.mocoding.pokedex"
-    compileSdk = Configuration.compileSdk
-    defaultConfig {
-        minSdk = Configuration.minSdk
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-}
-
-// TODO: Remove when Android Lint becomes compatible with Kotlin 2.2.x
-// Issue: IncompatibleClassChangeError in NonNullableMutableLiveDataDetector
-// caused by Kotlin Analysis API changes (KaCallableMemberCall class vs interface)
-afterEvaluate {
-    tasks.matching { task: Task -> task.name.contains("lint", ignoreCase = true) }.configureEach {
-        enabled = false
     }
 }
 
@@ -197,8 +160,8 @@ sqldelight {
 }
 
 object Configuration {
-    const val compileSdk = 35
-    const val targetSdk = 35
+    const val compileSdk = 37
+    const val targetSdk = 37
     const val minSdk = 24
     const val majorVersion = 1
     const val minorVersion = 0

@@ -1,6 +1,6 @@
 pluginManagement {
     // Resolve Kotlin version from dot-notation property only
-    val kotlinVersion = providers.gradleProperty("kotlin.version").orNull ?: "1.9.21"
+    val kotlinVersion = providers.gradleProperty("kotlin.version").orNull ?: "2.4.20"
 
     // Ensure Kotlin/Native bundle version matches Kotlin plugin version
     val kotlinNativeVersion = providers.gradleProperty("kotlin.native.version").orNull ?: kotlinVersion
@@ -34,7 +34,7 @@ pluginManagement {
         kotlin("plugin.serialization").version(kotlinVersion)
         id("com.android.base").version(agpVersion)
         id("com.android.application").version(agpVersion)
-        id("com.android.library").version(agpVersion)
+        id("com.android.kotlin.multiplatform.library").version(agpVersion)
         id("org.jetbrains.compose").version(composeVersion)
         id("app.cash.sqldelight").version(sqldelightVersion)
         id("org.jetbrains.kotlin.plugin.compose").version(kotlinVersion)
@@ -58,6 +58,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Pokedex"
-include(":android")
-include(":desktop")
+include(":androidApp")
+include(":desktopApp")
 include(":shared")
