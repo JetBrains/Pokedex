@@ -1,7 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("jvm")
+    kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
 }
@@ -23,11 +23,20 @@ kotlin {
             )
         }
     }
-}
 
-dependencies {
-    implementation(project(":shared"))
-    implementation(compose.desktop.currentOs)
+    jvm {
+//        jvmToolchain(11)
+    }
+
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                implementation(project(":shared"))
+                implementation(compose.desktop.currentOs)
+            }
+        }
+        val jvmTest by getting
+    }
 }
 
 compose.desktop {

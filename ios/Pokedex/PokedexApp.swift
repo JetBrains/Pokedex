@@ -12,8 +12,8 @@ import shared
 @main
 struct PokedexApp: App {
     @Environment(\.scenePhase) private var scenePhase
-    @StateObject private var lifecycleHolder = LifecycleHolder()
-
+    private var lifecycleHolder: LifecycleHolder { LifecycleHolder() }
+    
     var body: some Scene {
         WindowGroup {
             GeometryReader { geo in

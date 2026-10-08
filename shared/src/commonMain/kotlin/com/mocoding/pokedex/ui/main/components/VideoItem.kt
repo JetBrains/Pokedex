@@ -20,7 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.mocoding.pokedex.core.model.Video
 import com.mocoding.pokedex.ui.theme.Black
-import com.seiko.imageloader.rememberImagePainter
+import com.seiko.imageloader.rememberAsyncImagePainter
 
 @Composable
 internal fun VideoItem(
@@ -29,7 +29,7 @@ internal fun VideoItem(
     modifier: Modifier = Modifier
 ) {
 
-    val painter = rememberImagePainter(video.imageUrl)
+    val painter = rememberAsyncImagePainter(video.imageUrl)
 
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),

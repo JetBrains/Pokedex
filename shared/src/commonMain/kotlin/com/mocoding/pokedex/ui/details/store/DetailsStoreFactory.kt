@@ -37,11 +37,11 @@ internal class DetailsStoreFactory(
 
     private inner class ExecutorImpl : CoroutineExecutor<DetailsStore.Intent, Unit, DetailsStore.State, Msg, Nothing>(
         pokedexDispatchers.main) {
-        override fun executeAction(action: Unit) {
+        override fun executeAction(action: Unit, getState: () -> DetailsStore.State) {
             loadPokemonInfoByName(pokemonName)
         }
 
-        override fun executeIntent(intent: DetailsStore.Intent): Unit =
+        override fun executeIntent(intent: DetailsStore.Intent, getState: () -> DetailsStore.State): Unit =
             when (intent) {
                 is DetailsStore.Intent.UpdatePokemonFavoriteState -> togglePokemonFavorite(pokemonName, intent.isFavorite)
             }

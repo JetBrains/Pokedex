@@ -39,13 +39,13 @@ internal class PokedexStoreFactory(
 
     private inner class ExecutorImpl : CoroutineExecutor<PokedexStore.Intent, Unit, PokedexStore.State, Msg, Nothing>(
         pokedexDispatchers.main) {
-        override fun executeAction(action: Unit) {
+        override fun executeAction(action: Unit, getState: () -> PokedexStore.State) {
             loadPokemonListByPage(page = 0)
         }
 
-        override fun executeIntent(intent: PokedexStore.Intent): Unit =
+        override fun executeIntent(intent: PokedexStore.Intent, getState: () -> PokedexStore.State): Unit =
             when (intent) {
-                is PokedexStore.Intent.LoadPokemonListByPage -> loadPokemonListByPage(intent.page, state().isLastPageLoaded)
+                is PokedexStore.Intent.LoadPokemonListByPage -> loadPokemonListByPage(intent.page, getState().isLastPageLoaded)
                 is PokedexStore.Intent.UpdateSearchValue -> dispatch(Msg.SearchValueUpdated(intent.searchValue))
             }
 
