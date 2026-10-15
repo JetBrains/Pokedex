@@ -1,6 +1,6 @@
 pluginManagement {
     // Resolve Kotlin version from dot-notation property only
-    val kotlinVersion = providers.gradleProperty("kotlin.version").orNull ?: "2.4.20"
+    val kotlinVersion = providers.gradleProperty("kotlin.version").orNull ?: "2.4.21"
 
     // Ensure Kotlin/Native bundle version matches Kotlin plugin version
     val kotlinNativeVersion = providers.gradleProperty("kotlin.native.version").orNull ?: kotlinVersion
